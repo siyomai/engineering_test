@@ -24,5 +24,8 @@ defmodule EngineeringTest.Router do
     pipe_through :api
 
     resources "/stores", StoreController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit]
+
+    post "/auth", RegistrationController, :create
   end
 end
