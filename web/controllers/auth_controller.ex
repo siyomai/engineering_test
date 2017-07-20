@@ -1,12 +1,15 @@
-defmodule EngineeringTest.RegistrationController do
+defmodule EngineeringTest.AuthController do
   use EngineeringTest.Web, :controller
+  import Authsense.Plug
 
   alias EngineeringTest.User
+  alias Authsense.Service, as: Auth
+  alias Authsense.Plug, as: AuthPlug
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.create_changeset(%User{}, user_params)
-
-    case Repo.insert(changeset) do
+    # raise params
+    changeset = User.auth_changeset(%User{}, user_params)
+    case Auth.authenticate(changeset, User) do
       {:ok, user} ->
         conn
         |> put_status(:created)

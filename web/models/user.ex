@@ -4,7 +4,7 @@ defmodule EngineeringTest.User do
 
   schema "users" do
     field :email, :string
-    field :password_hash, :string
+    field :hashed_password, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
 
@@ -17,7 +17,13 @@ defmodule EngineeringTest.User do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:email, :password, :password_confirmation, :role, :merchant_id, :store_id])
+    |> cast(params, [:email, :password, :password_confirmation])
+  end
+
+  def auth_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:email, :password])
+    |> validate_required([:email, :password])
   end
 
   def create_changeset(struct, params \\ %{}) do
