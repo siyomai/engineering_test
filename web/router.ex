@@ -20,7 +20,9 @@ defmodule EngineeringTest.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", EngineeringTest do
-  #   pipe_through :api
-  # end
+  scope "/api", EngineeringTest do
+    pipe_through :api
+
+    resources "/stores", StoreController, except: [:new, :edit]
+  end
 end
