@@ -26,6 +26,7 @@ defmodule EngineeringTest.Router do
     resources "/stores", StoreController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
 
-    post "/auth", RegistrationController, :create
+    post "/auth", AuthController, :create
+    post "/users/sign_up", RegistrationController, :create
   end
 end

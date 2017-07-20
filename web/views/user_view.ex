@@ -5,13 +5,19 @@ defmodule EngineeringTest.UserView do
     %{data: render_many(users, EngineeringTest.UserView, "user.json")}
   end
 
-  def render("show.json", %{user: user}) do
-    %{data: render_one(user, EngineeringTest.UserView, "user.json")}
+  def render("show.json", %{user: user, token: token}) do
+    %{
+      data: %{
+        email: user.email,
+        token: token
+      }
+    }
   end
 
-  def render("user.json", %{user: user}) do
-    %{id: user.id,
+  def render("user.json", %{user: user, token: token}) do
+    %{
+      id: user.id,
       email: user.email,
-      password_hash: user.password_hash}
+    }
   end
 end

@@ -1,10 +1,16 @@
 defmodule EngineeringTest.StoreController do
   use EngineeringTest.Web, :controller
+  import EngineeringTest.Plug.Assigns
 
   alias EngineeringTest.Store
 
-  def index(conn, _params) do
-    stores = Repo.all(Store)
+  plug :authenticate_by_token
+
+  def index(%{assigns: %{current_user: current_user}} = conn, _params) do
+    stores =
+      from(s in Store, where: s.user_id == ^current_user.id)
+      |> Repo.all
+
     render(conn, "index.json", stores: stores)
   end
 
