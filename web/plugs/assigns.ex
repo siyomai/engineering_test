@@ -1,7 +1,8 @@
 defmodule EngineeringTest.Plug.Assigns do
   import Plug.Conn
   import Ecto.Query
-  alias Engineeringtest.{
+
+  alias EngineeringTest.{
     Repo,
     User
   }
@@ -9,10 +10,11 @@ defmodule EngineeringTest.Plug.Assigns do
   @doc """
   Plug: authenticate by token
   """
-  def authenticate_by_token(%{params: %{token: token}} = conn, _) do
+  def authenticate_by_token(%{req_headers: headers} = conn, _) do
+    {"bearer", token} = Enum.find(headers, fn({key, _val}) -> key == "bearer" end)
     case Phoenix.Token.verify(EngineeringTest.Endpoint, "user", token) do
       {:ok, user_id} ->
-        user = Repo.get(User, user_id)
+        user = Repo.get!(User, user_id)
         assign(conn, :current_user, user)
       _ ->
         conn
