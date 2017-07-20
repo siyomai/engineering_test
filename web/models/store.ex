@@ -5,6 +5,8 @@ defmodule EngineeringTest.Store do
     field :name, :string
     field :is_open, :boolean, default: false
 
+    belongs_to :user, EngineeringTest.User
+
     timestamps()
   end
 

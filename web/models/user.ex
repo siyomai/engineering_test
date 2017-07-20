@@ -8,6 +8,8 @@ defmodule EngineeringTest.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
 
+    has_many :stores, EngineeringTest.Store
+
     timestamps()
   end
 
