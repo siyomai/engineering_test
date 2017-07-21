@@ -3,7 +3,7 @@ defmodule EngineeringTest.RegistrationController do
 
   alias EngineeringTest.User
 
-  def create(conn, %{"user" => user_params}) do
+  def create(conn, user_params) do
     changeset = User.create_changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do

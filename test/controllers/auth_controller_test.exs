@@ -18,10 +18,8 @@ defmodule EngineeringTest.AuthControllerTest do
   describe "User authentication" do
     test "user logs in succesfully and returns a token", %{conn: conn, user: user} do
       params = %{
-        "user" => %{
-          "email" => "samp@samp.com",
-          "password" => "qwerty123"
-        }
+        "email" => "samp@samp.com",
+        "password" => "qwerty123"
       }
       conn = post conn, auth_path(conn, :create), params
       assert json_response(conn, 201)["data"]["email"] == user.email
@@ -30,10 +28,8 @@ defmodule EngineeringTest.AuthControllerTest do
 
     test "user logs in unsuccesfully using invalid parameters", %{conn: conn} do
       params = %{
-        "user" => %{
-          "email" => "samp@samp.com",
-          "password" => "sdasdasd"
-        }
+        "email" => "samp@samp.com",
+        "password" => "sdasdasd"
       }
       conn = post conn, auth_path(conn, :create), params
       assert json_response(conn, 422)["errors"]["password"] == ["Invalid credentials."]

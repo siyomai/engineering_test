@@ -6,8 +6,7 @@ defmodule EngineeringTest.AuthController do
   alias Authsense.Service, as: Auth
   alias Authsense.Plug, as: AuthPlug
 
-  def create(conn, %{"user" => user_params}) do
-    # raise params
+  def create(conn, user_params) do
     changeset = User.auth_changeset(%User{}, user_params)
     case Auth.authenticate(changeset, User) do
       {:ok, user} ->
