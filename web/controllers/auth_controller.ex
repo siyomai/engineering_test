@@ -1,10 +1,8 @@
 defmodule EngineeringTest.AuthController do
   use EngineeringTest.Web, :controller
-  import Authsense.Plug
 
   alias EngineeringTest.User
   alias Authsense.Service, as: Auth
-  alias Authsense.Plug, as: AuthPlug
 
   def create(conn, user_params) do
     changeset = User.auth_changeset(%User{}, user_params)

@@ -10,8 +10,12 @@ defmodule EngineeringTest.StoreView do
   end
 
   def render("store.json", %{store: store}) do
-    %{id: store.id,
+    %{
+      id: store.id,
       name: store.name,
-      is_open: store.is_open}
+      description: store.description,
+      tags: store.tags,
+      is_open: store.is_open
+    }
   end
 end

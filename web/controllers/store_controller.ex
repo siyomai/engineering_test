@@ -37,7 +37,7 @@ defmodule EngineeringTest.StoreController do
     render(conn, EngineeringTest.ErrorView, "error.json", error: error)
   end
 
-  def show(%{assigns: %{current_user: current_user}} = conn, %{"id" => id}) do
+  def show(%{assigns: %{current_user: _current_user}} = conn, %{"id" => id}) do
     store = Repo.get!(Store, id)
     render(conn, "show.json", store: store)
   end
@@ -45,7 +45,7 @@ defmodule EngineeringTest.StoreController do
     render(conn, EngineeringTest.ErrorView, "error.json", error: error)
   end
 
-  def update(%{assigns: %{current_user: current_user}} = conn, store_params) do
+  def update(%{assigns: %{current_user: _current_user}} = conn, store_params) do
     store = Repo.get!(Store, store_params["id"])
     changeset = Store.changeset(store, store_params)
 
