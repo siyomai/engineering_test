@@ -13,8 +13,12 @@ defmodule EngineeringTest.StoreController do
 
     render(conn, "index.json", stores: stores)
   end
+  def index(%{assigns: %{error: error}} = conn, _params) do
+    render(conn, EngineeringTest.ErrorView, "error.json", error: error)
+  end
 
-  def create(conn, %{"store" => store_params}) do
+  def create(%{assigns: %{current_user: current_user}} = conn, store_params) do
+    store_params = Map.put(store_params, "user_id", current_user.id)
     changeset = Store.changeset(%Store{}, store_params)
 
     case Repo.insert(changeset) do
@@ -29,14 +33,20 @@ defmodule EngineeringTest.StoreController do
         |> render(EngineeringTest.ChangesetView, "error.json", changeset: changeset)
     end
   end
+  def create(%{assigns: %{error: error}} = conn, _params) do
+    render(conn, EngineeringTest.ErrorView, "error.json", error: error)
+  end
 
-  def show(conn, %{"id" => id}) do
+  def show(%{assigns: %{current_user: current_user}} = conn, %{"id" => id}) do
     store = Repo.get!(Store, id)
     render(conn, "show.json", store: store)
   end
+  def show(%{assigns: %{error: error}} = conn, _params) do
+    render(conn, EngineeringTest.ErrorView, "error.json", error: error)
+  end
 
-  def update(conn, %{"id" => id, "store" => store_params}) do
-    store = Repo.get!(Store, id)
+  def update(%{assigns: %{current_user: current_user}} = conn, store_params) do
+    store = Repo.get!(Store, store_params["id"])
     changeset = Store.changeset(store, store_params)
 
     case Repo.update(changeset) do
@@ -48,14 +58,7 @@ defmodule EngineeringTest.StoreController do
         |> render(EngineeringTest.ChangesetView, "error.json", changeset: changeset)
     end
   end
-
-  def delete(conn, %{"id" => id}) do
-    store = Repo.get!(Store, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(store)
-
-    send_resp(conn, :no_content, "")
+  def update(%{assigns: %{error: error}} = conn, _params) do
+    render(conn, EngineeringTest.ErrorView, "error.json", error: error)
   end
 end

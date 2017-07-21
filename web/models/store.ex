@@ -15,7 +15,7 @@ defmodule EngineeringTest.Store do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :is_open])
+    |> cast(params, [:name, :is_open, :user_id])
     |> validate_required([:name, :is_open])
   end
 end

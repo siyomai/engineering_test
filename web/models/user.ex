@@ -20,6 +20,7 @@ defmodule EngineeringTest.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:email, :password, :password_confirmation])
+    |> validate_required([:email, :password])
   end
 
   def auth_changeset(struct, params \\ %{}) do

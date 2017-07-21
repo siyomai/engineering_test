@@ -1,12 +1,25 @@
 defmodule EngineeringTest.StoreControllerTest do
   use EngineeringTest.ConnCase
 
-  alias EngineeringTest.Store
+  alias EngineeringTest.{
+    Store,
+    User
+  }
+
   @valid_attrs %{is_open: true, name: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user =
+      %User{}
+      |> User.create_changeset(%{email: "samp@samp.com", password: "qwerty123", password_confirmation: "qwerty123"})
+      |> Repo.insert!
+
+    conn =
+      build_conn()
+      |> put_req_header("accept", "application/json")
+      |> put_req_header("bearer", Phoenix.Token.sign(EngineeringTest.Endpoint, "user", user.id))
+    {:ok, conn: conn}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -22,40 +35,27 @@ defmodule EngineeringTest.StoreControllerTest do
       "is_open" => store.is_open}
   end
 
-  test "renders page not found when id is nonexistent", %{conn: conn} do
-    assert_error_sent 404, fn ->
-      get conn, store_path(conn, :show, -1)
-    end
-  end
-
   test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, store_path(conn, :create), store: @valid_attrs
+    conn = post conn, store_path(conn, :create), @valid_attrs
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Store, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, store_path(conn, :create), store: @invalid_attrs
+    conn = post conn, store_path(conn, :create), @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     store = Repo.insert! %Store{}
-    conn = put conn, store_path(conn, :update, store), store: @valid_attrs
+    conn = put conn, store_path(conn, :update, store), @valid_attrs
     assert json_response(conn, 200)["data"]["id"]
     assert Repo.get_by(Store, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     store = Repo.insert! %Store{}
-    conn = put conn, store_path(conn, :update, store), store: @invalid_attrs
+    conn = put conn, store_path(conn, :update, store), @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
-  end
-
-  test "deletes chosen resource", %{conn: conn} do
-    store = Repo.insert! %Store{}
-    conn = delete conn, store_path(conn, :delete, store)
-    assert response(conn, 204)
-    refute Repo.get(Store, store.id)
   end
 end
