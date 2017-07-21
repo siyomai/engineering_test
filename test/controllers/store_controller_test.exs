@@ -32,8 +32,8 @@ defmodule EngineeringTest.StoreControllerTest do
     conn = get conn, store_path(conn, :show, store)
     assert json_response(conn, 200)["data"] == %{"id" => store.id,
                                                  "name" => store.name,
-                                                 "description": nil,
-                                                 "tags": nil,
+                                                 "description" => nil,
+                                                 "tags" => nil,
                                                  "is_open" => store.is_open}
   end
 
