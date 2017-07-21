@@ -8,6 +8,8 @@ defmodule EngineeringTest.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
 
+    has_many :stores, EngineeringTest.Store
+
     timestamps()
   end
 
@@ -18,6 +20,7 @@ defmodule EngineeringTest.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:email, :password, :password_confirmation])
+    |> validate_required([:email, :password])
   end
 
   def auth_changeset(struct, params \\ %{}) do

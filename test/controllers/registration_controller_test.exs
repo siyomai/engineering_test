@@ -13,11 +13,9 @@ defmodule EngineeringTest.RegistrationControllerTest do
   describe "User registration" do
     test "when user signs up succesfully and returns a token", %{conn: conn} do
       params = %{
-        "user" => %{
-          "email" => "samp@samp.com",
-          "password" => "qwerty123",
-          "password_confirmation" => "qwerty123"
-        }
+        "email" => "samp@samp.com",
+        "password" => "qwerty123",
+        "password_confirmation" => "qwerty123"
       }
       conn = post conn, auth_path(conn, :create), params
       user = Repo.get_by(User, email: "samp@samp.com")
@@ -29,11 +27,9 @@ defmodule EngineeringTest.RegistrationControllerTest do
 
     test "when user signs up unsuccesfully using invalid parameters", %{conn: conn} do
       params = %{
-        "user" => %{
-          "email" => "samp@samp.com",
-          "password" => "sdasdasd",
-          "password" => "something_else"
-        }
+        "email" => "samp@samp.com",
+        "password" => "sdasdasd",
+        "password_confirmation" => "something_else"
       }
       conn = post conn, auth_path(conn, :create), params
       assert json_response(conn, 422)["errors"]["password"] == ["Invalid credentials."]

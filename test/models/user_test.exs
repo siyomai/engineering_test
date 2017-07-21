@@ -3,7 +3,7 @@ defmodule EngineeringTest.UserTest do
 
   alias EngineeringTest.User
 
-  @valid_attrs %{email: "some content", password_hash: "some content"}
+  @valid_attrs %{email: "some content", password: "some content", password_confirmation: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
