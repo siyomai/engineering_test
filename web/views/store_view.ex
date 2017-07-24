@@ -15,7 +15,8 @@ defmodule EngineeringTest.StoreView do
       name: store.name,
       description: store.description,
       tags: store.tags,
-      is_open: store.is_open
+      is_open: store.is_open,
+      location: store.location
     }
   end
 end
