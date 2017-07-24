@@ -115,7 +115,45 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
             "tags": null,
             "name": "store 1",
             "is_open": false,
-            "description": null
+            "description": null,
+            "location": {
+              "longitude" 13.346545657,
+              "latitude": 15.234234234
+            }
+          }
+        ]
+      }
+    ```
+    
+* **URL**
+
+  `/api/stores?lon=<lon>&lat=<lat>&radius=<radius_in_km>`
+
+* **Method:**
+
+  `GET`
+  
+*  **Request Headers**
+ 
+   - `Bearer=[string]`
+
+* **Success Response:**
+ 
+  * **Code:** 200 <br />
+    **Content:**
+    ```
+      {
+        "data":[
+          {
+            "id": "c2f622eb-0860-459f-9027-f3f97fff0b66",
+            "tags": null,
+            "name": "store 1",
+            "is_open": false,
+            "description": null,
+            "location": {
+              "longitude" 13.346545657,
+              "latitude": 15.234234234
+            }
           }
         ]
       }
